@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingTools.Service", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingTools.Common", "AccountingTools.Common\AccountingTools.Common.csproj", "{8DE986A4-9A84-4426-A1EF-8DE36171BA44}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AccountingTools.Web", "AccountingTools.Web\AccountingTools.Web.esproj", "{BE5F6736-3180-48F1-AE59-38F15EFC8402}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
