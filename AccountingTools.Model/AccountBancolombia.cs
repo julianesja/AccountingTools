@@ -8,7 +8,8 @@ namespace AccountingTools.Model
         public string Date { get; set; }
         [ExcelColumn(2)]
         public string Description { get; set; }
-        [ExcelColumn(3)]
+        
+        [ExcelColumn(3, columnFormat: "$ #,##0.00")]
         public double Value { get; set; }
     }
 }

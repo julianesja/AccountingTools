@@ -1,4 +1,5 @@
-﻿using AccountingTools.Model.Dtos;
+﻿using AccountingTools.Common.Attributes;
+using AccountingTools.Model.Dtos;
 using AccountingTools.Repository.Interface;
 using ClosedXML.Excel;
 using IronXL;
@@ -33,6 +34,17 @@ namespace AccountingTools.Repository
                         cell = 1;
                         foreach (PropertyInfo prop in typeof(T).GetProperties())
                         {
+                            object[] attrs = prop.GetCustomAttributes(true);
+                            object? objectExcelColumnAttribute = attrs.Where(a => a.GetType() == typeof(ExcelColumnAttribute)).FirstOrDefault();
+                            if(objectExcelColumnAttribute != null)
+                            {
+                                ExcelColumnAttribute excelColumnAttribute = (ExcelColumnAttribute)objectExcelColumnAttribute;
+                                if(excelColumnAttribute.ColumnFormat != null)
+                                {
+                                    if (prop.PropertyType == typeof(double))
+                                        excelSheet.Cell(row, cell).Style.NumberFormat.Format = excelColumnAttribute.ColumnFormat;
+                                }
+                            }
                             excelSheet.Cell(row, cell).SetDataType(GetTypeCell(prop.PropertyType));
                             excelSheet.Cell(row, cell).Value = prop.GetValue(rowValue);
                             cell++;
@@ -57,6 +69,8 @@ namespace AccountingTools.Repository
                 return XLDataType.Number;
             else if (type == typeof(DateTime))
                 return XLDataType.DateTime;
+            else if (type == typeof(double))
+                return XLDataType.Number;
             else
                 return XLDataType.Text;
 

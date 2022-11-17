@@ -23,6 +23,9 @@ namespace AccountingTools.Service
             foreach (string page in pages)
             {
                 List<string> arrayText = page.Split("\n").ToList();
+                string strDate = arrayText[1].Split(" ")[1];
+                DateTime date = DateTime.Parse(strDate);
+
                 int index = arrayText.IndexOf("FECHA DESCRIPCIÓN SUCURSAL DCTO. VALOR SALDO");
                 List<string> values = arrayText.GetRange(index + 1, arrayText.Count - (index + 3));
                 values.Remove("FIN ESTADO DE CUENTA");
@@ -33,7 +36,7 @@ namespace AccountingTools.Service
                     {
                         AccountBancolombia accountBancolombia = new AccountBancolombia
                         {
-                            Date = arrayValue[0],
+                            Date = $"{arrayValue[0]}/{date.Year}",
                             Description = String.Join(" ", arrayValue.GetRange(1, arrayValue.Count - 3).ToArray()),
                             Value = Convert.ToDouble(arrayValue[arrayValue.Count - 2])
                         };

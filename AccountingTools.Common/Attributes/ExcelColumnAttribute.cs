@@ -4,11 +4,15 @@
     public class ExcelColumnAttribute : Attribute
     {
         private int columnNumber;
-        public ExcelColumnAttribute(int columnNumber)
+        private string columnFormat;
+        public ExcelColumnAttribute(int columnNumber, string columnFormat = null)
         {
             this.columnNumber = columnNumber;
+            this.columnFormat = columnFormat;
         }
 
         public int ColumnNumber { get { return columnNumber; } }
+
+        public string ColumnFormat { get { return columnFormat; } }
     }
 }
