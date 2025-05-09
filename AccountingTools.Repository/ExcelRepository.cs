@@ -23,7 +23,6 @@ namespace AccountingTools.Repository
                     {
 
                         excelSheet.Cell(row, cell).Style.Font.SetBold(true);
-                        excelSheet.Cell(row, cell).SetDataType(XLDataType.Text);
                         excelSheet.Cell(row, cell).Value = header;
                         cell++;
                     }
@@ -36,17 +35,16 @@ namespace AccountingTools.Repository
                         {
                             object[] attrs = prop.GetCustomAttributes(true);
                             object? objectExcelColumnAttribute = attrs.Where(a => a.GetType() == typeof(ExcelColumnAttribute)).FirstOrDefault();
-                            if(objectExcelColumnAttribute != null)
+                            if (objectExcelColumnAttribute != null)
                             {
                                 ExcelColumnAttribute excelColumnAttribute = (ExcelColumnAttribute)objectExcelColumnAttribute;
-                                if(excelColumnAttribute.ColumnFormat != null)
+                                if (excelColumnAttribute.ColumnFormat != null)
                                 {
                                     if (prop.PropertyType == typeof(double))
                                         excelSheet.Cell(row, cell).Style.NumberFormat.Format = excelColumnAttribute.ColumnFormat;
                                 }
                             }
-                            excelSheet.Cell(row, cell).SetDataType(GetTypeCell(prop.PropertyType));
-                            excelSheet.Cell(row, cell).Value = prop.GetValue(rowValue);
+                            excelSheet.Cell(row, cell).Value = XLCellValue.FromObject(prop.GetValue(rowValue));
                             cell++;
                         }
                         row++;
@@ -58,22 +56,8 @@ namespace AccountingTools.Repository
                 return ms;
 
             }
-            return null;
         }
 
-        private XLDataType GetTypeCell(Type type)
-        {
-            if (type == typeof(string))
-                return XLDataType.Text;
-            else if (type == typeof(int))
-                return XLDataType.Number;
-            else if (type == typeof(DateTime))
-                return XLDataType.DateTime;
-            else if (type == typeof(double))
-                return XLDataType.Number;
-            else
-                return XLDataType.Text;
-
-        }
+       
     }
 }
