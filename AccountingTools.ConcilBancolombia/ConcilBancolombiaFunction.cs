@@ -43,6 +43,7 @@ namespace AccountingTools.ConcilBancolombia
                 }
                 catch (Exception ex)
                 {
+                    log.LogError(ex.Message);
 
                 }
 
